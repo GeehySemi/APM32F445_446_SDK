@@ -1,0 +1,150 @@
+/*!
+ * @file        user_pin_gpio_config.c
+ *
+ * @brief       Pins configurations
+ *
+ * @version     V1.0.0
+ *
+ * @date        2026-01-31
+ *
+ * @attention
+ *
+ *  Copyright (C) 2026 Geehy Semiconductor
+ *
+ *  You may not use this file except in compliance with the
+ *  GEEHY COPYRIGHT NOTICE (GEEHY SOFTWARE PACKAGE LICENSE).
+ *
+ *  The program is only for reference, which is distributed in the hope
+ *  that it will be useful and instructional for customers to develop
+ *  their software. Unless required by applicable law or agreed to in
+ *  writing, the program is distributed on an "AS IS" BASIS, WITHOUT
+ *  ANY WARRANTY OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the GEEHY SOFTWARE PACKAGE LICENSE for the governing permissions
+ *  and limitations under the License.
+ */
+
+/* Includes */
+#include "user_pin_gpio_config.h"
+
+/** @addtogroup APM32F445_Examples
+  @{
+  */
+
+/** @addtogroup SPI_DMA
+  @{
+  */
+
+/** @defgroup SPI_DMA_Variables Variables
+  @{
+*/
+PIN_SETTINGS_CFG_T g_spiPinsConfig[NUM_OF_CONFIGURED_PINS0] = {
+    {
+        .base            = PMB,
+        .pinPmIdx        = 0U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT3,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+    {
+        .base            = PMB,
+        .pinPmIdx        = 14U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT3,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+    {
+        .base            = PMB,
+        .pinPmIdx        = 2U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT3,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+    {
+        .base            = PMB,
+        .pinPmIdx        = 4U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT3,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+    {
+        .base            = PMD,
+        .pinPmIdx        = 1U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT3,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+    {
+        .base            = PMD,
+        .pinPmIdx        = 2U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT3,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+    {
+        .base            = PMD,
+        .pinPmIdx        = 3U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT3,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+    {
+        .base            = PME,
+        .pinPmIdx        = 1U,
+        .pullCfg         = PM_INTERNAL_PULL_NOT_ENABLED,
+        .drvSel          = PM_LOW_DRIVE_STRENGTH,
+        .passiveFilt     = false,
+        .mux             = PM_MUX_ALT2,
+        .pinLk           = false,
+        .intCfg          = PM_DMA_INT_DISABLED,
+        .clrIntFlg       = false,
+        .gpioBase        = NULL,
+        .digitFilt       = false,
+    },
+};
+
+/**@} end of group SPI_DMA_Variables*/
+/**@} end of group SPI_DMA */
+/**@} end of group Examples */
+

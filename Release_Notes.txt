@@ -1,0 +1,5 @@
+﻿Release Notes for APM32F445_446 SDK
+
+Update History
+v1.0.0 / 2026-01-31
+First Release version of APM32F445_446 SDK.

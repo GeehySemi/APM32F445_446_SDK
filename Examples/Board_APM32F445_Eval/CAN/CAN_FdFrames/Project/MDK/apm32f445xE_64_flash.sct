@@ -1,0 +1,111 @@
+#! armclang --target=arm-arm-none-eabi -mcpu=cortex-m4 -xc -E
+/*
+ * modified by ARM
+ *
+ * If __flash_vector_table__ is defined then interrupt vector table is not copied to RAM.
+ * If __flash_vector_table__ is defined at link time then it must also be defined for
+ * assembling startup_14*.s
+ */
+
+/*!
+ * @file        apm32f445_64_flash.sct
+ *
+ * @brief       Linker file for the ARM Compiler
+ *
+ * @version     V1.0.0
+ *
+ * @date        2026-01-31
+ *
+ * @attention
+ *
+ *  Copyright (C) 2026 Geehy Semiconductor
+ *
+ *  You may not use this file except in compliance with the
+ *  GEEHY COPYRIGHT NOTICE (GEEHY SOFTWARE PACKAGE LICENSE).
+ *
+ *  The program is only for reference, which is distributed in the hope
+ *  that it will be useful and instructional for customers to develop
+ *  their software. Unless required by applicable law or agreed to in
+ *  writing, the program is distributed on an "AS IS" BASIS, WITHOUT
+ *  ANY WARRANTY OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the GEEHY SOFTWARE PACKAGE LICENSE for the governing permissions
+ *  and limitations under the License.
+ */
+
+#if (defined(__flash_vector_table__))
+  #define __ram_vector_table_size__    0x00000000
+#else
+  #define __ram_vector_table_size__    0x00000400
+#endif
+
+#define start_interrupts             0x00000000
+#define size_interrupts              0x00000400
+
+#define start_flash_config           0x00000400
+#define size_flash_config            0x00000010
+
+#define start_text                   0x00000410
+#define size_text                    0x0007FBF0
+
+#define start_ram_interrupts         0x1FFF8000
+#define size_ram_interrupts          __ram_vector_table_size__
+
+#define start_data                   0x1FFF8000 + __ram_vector_table_size__
+#define size_data                    0x00008000 - __ram_vector_table_size__
+
+#define start_data2                 0x20000000
+#define size_data2                  0x00007000
+
+/* Sizes */
+  #define Heap_Size                    0x0400
+  #define Stack_Size                   0x0400
+
+
+LR_m_text start_interrupts start_text+size_text-start_interrupts {
+  VECTOR_ROM start_interrupts size_interrupts {
+    startup_apm32f4*.o (RESET +First)
+  }
+
+#if (defined(__flash_vector_table__))
+  VECTOR_RAM start_interrupts EMPTY 0 {
+  }
+#else
+  VECTOR_RAM start_ram_interrupts EMPTY size_ram_interrupts {
+  }
+#endif
+
+  FLASH_CONFIG start_flash_config FIXED size_flash_config {
+    * (FlashConfig)
+  }
+
+  TEXT_CONST start_text  {
+    .ANY (+RO-DATA)
+  }
+
+  TEXT +0 size_text {
+    * (InRoot$$Sections)
+    .ANY (+RO)
+  }
+
+  RW_DATA start_data {
+    .ANY (+RW-DATA)
+  }
+
+  RW_CODE +0 size_data {
+    .ANY (.code_ram)
+  }
+
+  RW_USER_SECTION start_data2 ALIGN 0x4 {
+    .ANY (.userSection)
+  }
+
+  RW_DATA_2 +0 size_data2-Stack_Size-Heap_Size {
+    .ANY (+ZI)
+  }
+
+  ARM_LIB_HEAP ((ImageLimit(RW_DATA_2) == start_data2) ? start_data2 : +0) EMPTY Heap_Size {
+  }
+
+  ARM_LIB_STACK start_data2+size_data2 EMPTY -Stack_Size {
+  }
+}

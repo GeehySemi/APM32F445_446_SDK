@@ -1,0 +1,81 @@
+/*!
+ * @file        apm32f446_64_ram.icf
+ *
+ * @brief       Linker file for the IAR ANSI C/C++ Compiler for ARM
+ *
+ * @version     V1.0.0
+ *
+ * @date        2026-01-31
+ *
+ * @attention
+ *
+ *  Copyright (C) 2026 Geehy Semiconductor
+ *
+ *  You may not use this file except in compliance with the
+ *  GEEHY COPYRIGHT NOTICE (GEEHY SOFTWARE PACKAGE LICENSE).
+ *
+ *  The program is only for reference, which is distributed in the hope
+ *  that it will be useful and instructional for customers to develop
+ *  their software. Unless required by applicable law or agreed to in
+ *  writing, the program is distributed on an "AS IS" BASIS, WITHOUT
+ *  ANY WARRANTY OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the GEEHY SOFTWARE PACKAGE LICENSE for the governing permissions
+ *  and limitations under the License.
+ */
+
+/* SRAM_L */
+define symbol start_interrupts       = 0x1FFF0000;
+define symbol end_interrupts         = 0x1FFF03FF;
+
+define symbol start_text             = 0x1FFF0400;
+define symbol end_text               = 0x1FFFFFFF;
+
+/* SRAM_U */
+define symbol start_data             = 0x20000000;
+define symbol end_data               = 0x2000EFFF;
+
+/* Sizes */
+define symbol __v_heap_size__        = 0x00000400;
+define symbol __cstack_size__        = 0x00000400;
+
+
+define memory mem with size = 4G;
+
+define exported symbol __VECTOR_TABLE          = start_interrupts;
+define exported symbol __RAM_VECTOR_TABLE_SIZE = 0x0;
+define exported symbol __VECTOR_RAM            = start_interrupts;
+
+define exported symbol __RAM_START             = start_interrupts;
+define exported symbol __RAM_END               = end_data;
+
+define region CODE_region   = mem:[from start_interrupts to end_interrupts]
+                            | mem:[from start_text to end_text];
+define region DATA_region   = mem:[from start_data to end_data-__cstack_size__];
+define region CSTACK_region = mem:[from end_data-__cstack_size__+1 to end_data];
+
+
+define block UserSection { section .userSection };
+define block __RAM_CODE   { section .textrw  };
+define block __ROM_CODE   { section .textrw_init };
+define block HEAP      with alignment = 8, size = __v_heap_size__     { };
+define block CSTACK    with alignment = 8, size = __cstack_size__   { };
+define block ZI        { zi };
+define block RW        { readwrite };
+
+
+initialize manually { section .bss };
+initialize manually { section .userSection };
+initialize manually { section .textrw };
+initialize manually { section __DLIB_PERTHREAD };
+do not initialize   { section .noinit, section .bss, section __DLIB_PERTHREAD, section .userSection };
+
+place at address mem: start_interrupts    { readonly section .intvector };
+place in CODE_region                        { readonly };
+place in CODE_region                        { block __ROM_CODE };
+place in DATA_region                        { first block UserSection };
+place in DATA_region                        { block RW };
+place in DATA_region                        { block __RAM_CODE };
+place in DATA_region                        { block ZI };
+place in DATA_region                        { last block HEAP };
+place in CSTACK_region                      { block CSTACK };
+
